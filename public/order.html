@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Siparişlerim - Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .order-wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .order-wrapper h2 {
+      font-size: 24px;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+
+    .order-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px var(--card-shadow);
+      transition: all 0.2s ease;
+    }
+
+    .order-card:hover {
+      box-shadow: 0 4px 12px var(--card-shadow);
+    }
+
+    .order-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-id {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .order-date {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .order-total {
+      font-size: 18px;
+      font-weight: 700;
+      color: #b5865a;
+    }
+
+    .order-items {
+      margin-bottom: 12px;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .payment-info {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .empty-orders {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-orders .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .empty-orders p {
+      font-size: 16px;
+      margin: 0 0 20px 0;
+    }
+
+    .empty-orders a {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .empty-orders a:hover {
+      background: var(--button-hover);
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="favorites.html" class="favorites-link">
+      ♡ Favorilerim
+      <span class="favorites-badge" id="favoritesCount">0</span>
+    </a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="order-wrapper">
+  <h2>📦 Siparişlerim</h2>
+  <div id="orders"></div>
+</div>
+
+<script src="tema.js"></script>
+<script>
+const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+const div = document.getElementById("orders");
+
+const user = localStorage.getItem("user");
+const ua = document.getElementById("userArea");
+if (user) {
+  ua.innerHTML = `<a href="profile.html" style="text-decoration:none;color:var(--text-primary);">👤 ${user}</a>`;
+} else {
+  ua.innerHTML = `<a href="login.html">Giriş Yap/Kayıt Ol</a>`;
+}
+
+if (orders.length === 0) {
+  div.innerHTML = `
+    <div class="empty-orders">
+      <div class="icon">🛍️</div>
+      <p>Henüz siparişiniz bulunmuyor.</p>
+      <a href="index.html">Alışverişe Başla</a>
+    </div>`;
+} else {
+  orders.reverse().forEach(order => {
+    let itemsHTML = "";
+    let subtotal = 0;
+
+    order.items.forEach(item => {
+      const itemTotal = item.price * (item.qty || 1);
+      subtotal += itemTotal;
+      itemsHTML += `
+        <div class="order-item">
+          <span>${item.name} x${item.qty || 1}</span>
+          <span>${itemTotal.toFixed(2)}₺</span>
+        </div>
+      `;
+    });
+
+    // Kargo ücreti hesaplaması
+    const cargoFee = 50;
+    let cargoHTML = "";
+    
+    if (subtotal < 2000) {
+      // Kargo ücreti eklenmiş
+      cargoHTML = `
+        <div class="order-item" style="border-top:1px solid var(--border-color);padding-top:10px;margin-top:10px;color:var(--text-secondary)">
+          <span>🚚 Kargo Ücreti</span>
+          <span>${cargoFee}₺</span>
+        </div>
+      `;
+    } else {
+      // Ücretsiz kargo
+      cargoHTML = `
+        <div class="order-item" style="border-top:1px solid var(--border-color);padding-top:10px;margin-top:10px;color:green;font-weight:600">
+          <span>🚚 Kargo Ücreti</span>
+          <span style="text-decoration:line-through;color:var(--text-tertiary)">50₺</span>
+        </div>
+        <div class="order-item" style="border:none;padding:0;color:green">
+          <span></span>
+          <span>Ücretsiz</span>
+        </div>
+      `;
+    }
+
+    const paymentInfo = order.paymentMethod 
+      ? `<div class="payment-info">💳 Ödeme: ${order.paymentMethod} (•••• ${order.cardLast4})</div>` 
+      : '';
+
+    div.innerHTML += `
+      <div class="order-card">
+        <div class="order-header-info">
+          <div>
+            <div class="order-id">Sipariş #${String(order.id).slice(-6)}</div>
+            <div class="order-date">${order.date}</div>
+          </div>
+          <div class="order-total">${order.total.toFixed(2)}₺</div>
+        </div>
+        <div class="order-items">
+          ${itemsHTML}
+          ${cargoHTML}
+        </div>
+        ${paymentInfo}
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Giriş</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="#">♡ Favorilerim</a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="center-box">
+  <div class="form-box">
+    <h2>Giriş Yap</h2>
+
+    <!-- Security Message -->
+    <div id="securityMessage" style="display: none; margin-bottom: 15px; padding: 12px; border-radius: 6px; text-align: center; font-weight: 600; font-size: 13px;">
+    </div>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Şifre">
+
+    <!-- Attempt Counter -->
+    <div id="attemptCounter" style="text-align: center; margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+    </div>
+
+    <!-- Lockout Timer -->
+    <div id="lockoutTimer" style="display: none; text-align: center; margin-top: 15px; padding: 15px; background: #ffebee; border-radius: 6px; border: 1px solid #ef5350;">
+      <p style="margin: 0 0 10px 0; color: #c62828; font-weight: 600;">🔒 Çok fazla yanlış girişim!</p>
+      <p style="margin: 0; font-size: 14px; color: #d32f2f;">
+        Lütfen <span id="timerDisplay" style="font-weight: bold; font-size: 16px;">3:00</span> saniye bekleyin.
+      </p>
+    </div>
+
+    <button id="loginBtn" onclick="login()">Giriş Yap</button>
+
+    <br><br>
+
+    <button onclick="goRegister()">Kayıt Ol</button>
+  </div>
+</div>
+
+<!-- SADECE BU OLACAK -->
+<script src="tema.js"></script>
+<script src="login.js"></script>
+
+<script>
+  // login.js yüklenmesini bekle
+  setTimeout(() => {
+    console.log("Login security sistemi başlatılıyor...");
+    if (typeof loadLoginAttempts === 'function') {
+      loadLoginAttempts();
+      console.log("✅ Security sistemi aktif!");
+    } else {
+      console.error("❌ loadLoginAttempts fonksiyonu bulunamadı!");
+    }
+  }, 100);
+</script>
+
+</body>
+</html>

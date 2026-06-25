@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sepetim – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-wrapper {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .cart-wrapper h2 {
+      font-size: 22px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 12px;
+      color: var(--text-primary);
+    }
+    .empty-cart {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-tertiary);
+    }
+    .empty-cart .icon { font-size: 60px; margin-bottom: 16px; }
+    .empty-cart p { font-size: 17px; margin-bottom: 20px; }
+    .empty-cart a {
+      display: inline-block;
+      padding: 10px 28px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px var(--card-shadow);
+    }
+    .cart-table thead { background: var(--text-primary); color: var(--bg-primary); }
+    .cart-table th {
+      padding: 13px 16px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .cart-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .cart-table tr:last-child td { border-bottom: none; }
+    .product-cell {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .product-cell img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+    .p-name { font-weight: 700; font-size: 14px; margin-bottom: 3px; color: var(--text-primary); }
+    .p-cat  { font-size: 12px; color: var(--text-tertiary); text-transform: capitalize; }
+    .qty-ctrl { display: flex; align-items: center; gap: 6px; }
+    .qty-ctrl button {
+      width: 28px; height: 28px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background-color 0.2s ease;
+    }
+    .qty-ctrl button:hover { background: var(--bg-tertiary); }
+    .qty-ctrl span { min-width: 26px; text-align: center; font-weight: 700; color: var(--text-primary); }
+    .price-col { font-weight: 700; color: var(--text-primary); }
+    .total-col { font-weight: 700; color: #b5865a; }
+    .del-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #cc4444; }
+    .del-btn:hover { color: #900; }
+    .summary {
+      margin-top: 24px;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 22px 26px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .total-label { font-size: 13px; color: var(--text-tertiary); margin-bottom: 4px; }
+    .total-amount { font-size: 26px; font-weight: 800; color: var(--text-primary); }
+    .btn-row { display: flex; gap: 10px; }
+    .btn-clear {
+      padding: 10px 20px;
+      background: var(--bg-primary);
+      color: #cc4444;
+      border: 1px solid #cc4444;
+      border-radius: 7px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+    .btn-clear:hover { background: var(--bg-secondary); }
+    .btn-checkout {
+      padding: 12px 32px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .btn-checkout:hover { background: var(--button-hover); }
+
+    .coupon-box {
+      margin-top: 20px;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+    }
+    .coupon-box label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .coupon-row {
+      display: flex;
+      gap: 8px;
+    }
+    .coupon-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid var(--input-border);
+      border-radius: 7px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      outline: none;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: border-color 0.2s;
+    }
+    .coupon-input:focus { border-color: var(--text-primary); }
+    .coupon-input.valid { border-color: #27ae60; background: var(--bg-secondary); }
+    .coupon-input.invalid { border-color: #e74c3c; background: var(--bg-secondary); }
+    .btn-apply {
+      padding: 10px 20px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+    .btn-apply:hover { background: var(--button-hover); }
+    .coupon-msg {
+      margin-top: 8px;
+      font-size: 12px;
+      min-height: 16px;
+    }
+    .coupon-msg.ok { color: #27ae60; }
+    .coupon-msg.err { color: #e74c3c; }
+    .discount-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #27ae60;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .cart-link { position: relative; text-decoration: none; color: var(--text-primary); }
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -12px;
+      background: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      font-size: 10px;
+      width: 17px; height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* 14-DAY RETURN RULE */
+    .return-policy-cart {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .return-policy-icon {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="favorites.html" class="favorites-link">
+      ♡ Favorilerim
+      <span class="favorites-badge" id="favoritesCount">0</span>
+    </a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="cart-wrapper">
+  <h2>🛒 Sepetim</h2>
+  <div id="cartContent"></div>
+</div>
+
+<script src="tema.js"></script>
+<script>
+  function getCart() { return JSON.parse(localStorage.getItem("cart") || "[]"); }
+  function saveCart(c) { localStorage.setItem("cart", JSON.stringify(c)); }
+
+  function updateBadge() {
+    const total = getCart().reduce((s, i) => s + (i.qty || 1), 0);
+    const el = document.getElementById("cartCount");
+    if (el) el.textContent = total;
+  }
+
+  const COUPON_CODE = "SHINE100";
+  const COUPON_RATE = 0.15;
+
+  let couponApplied = false;
+
+  function getDiscount() {
+    if (couponApplied) return { rate: COUPON_RATE, source: "coupon" };
+    return { rate: 0, source: "none" };
+  }
+
+  function applyCoupon() {
+    const input = document.getElementById("couponInput");
+    const msg   = document.getElementById("couponMsg");
+    const code  = input.value.trim().toUpperCase();
+
+    if (code === COUPON_CODE) {
+      couponApplied = true;
+      input.classList.remove("invalid");
+      input.classList.add("valid");
+      msg.textContent  = "Kupon uygulandı! %15 indirim kazandınız.";
+      msg.className    = "coupon-msg ok";
+      renderCart(true);
+    } else {
+      couponApplied = false;
+      input.classList.remove("valid");
+      input.classList.add("invalid");
+      msg.textContent = "Geçersiz kupon kodu.";
+      msg.className   = "coupon-msg err";
+    }
+  }
+
+  function removeCoupon() {
+    couponApplied = false;
+    const input = document.getElementById("couponInput");
+    if (input) {
+      input.value = "";
+      input.className = "coupon-input";
+    }
+    const msg = document.getElementById("couponMsg");
+    if (msg) { msg.textContent = ""; msg.className = "coupon-msg"; }
+    renderCart(true);
+  }
+
+  function renderCart(keepCouponUI) {
+    const cart = getCart();
+    const el = document.getElementById("cartContent");
+
+    if (cart.length === 0) {
+      couponApplied = false;
+      el.innerHTML = `
+        <div class="empty-cart">
+          <div class="icon">🛍️</div>
+          <p>Sepetiniz şu an boş.</p>
+          <a href="index.html">Alışverişe Başla</a>
+        </div>`;
+      updateBadge();
+      return;
+    }
+
+    const rows = cart.map((item, i) => `
+      <tr>
+        <td>
+          <div class="product-cell">
+            <img src="${item.image}"
+                 onclick="window.location.href='product.html?id=${item.id}'"
+                 onerror="this.style.display='none'">
+            <div>
+              <div class="p-name">${item.name}</div>
+              <div class="p-cat">${item.category || ""}</div>
+            </div>
+          </div>
+        </td>
+        <td class="price-col">${Number(item.price).toFixed(2)} ₺</td>
+        <td>
+          <div class="qty-ctrl">
+            <button onclick="changeQty(${i}, -1)">−</button>
+            <span>${item.qty || 1}</span>
+            <button onclick="changeQty(${i}, +1)">+</button>
+          </div>
+        </td>
+        <td class="total-col">${(item.price * (item.qty || 1)).toFixed(2)} ₺</td>
+        <td><button class="del-btn" onclick="removeItem(${i})">🗑️</button></td>
+      </tr>
+    `).join("");
+
+    const grandTotal = cart.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+    const itemCount  = cart.reduce((s, i) => s + (i.qty || 1), 0);
+
+    const disc       = getDiscount();
+    const discAmount = grandTotal * disc.rate;
+    let subtotal     = grandTotal - discAmount;
+    
+    // Kargo ücreti hesaplaması
+    const cargoFee = 50;
+    let totalWithCargo = subtotal;
+    let cargoMsg = "";
+    
+    if (subtotal < 2000) {
+      // 2000 TL altı - kargo ücreti ekle
+      totalWithCargo = subtotal + cargoFee;
+      cargoMsg = `<div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border-color)">
+        <div style="color:var(--text-secondary);font-size:13px;margin-bottom:4px">🚚 Kargo Ücreti</div>
+        <div style="color:var(--text-primary);font-size:14px;font-weight:600">${cargoFee} ₺</div>
+      </div>`;
+    } else {
+      // 2000 TL üzeri - ücretsiz kargo
+      cargoMsg = `<div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border-color)">
+        <div style="color:green;font-size:13px;margin-bottom:4px">✅ Kargo Ücreti</div>
+        <div style="color:var(--text-primary);font-size:14px;font-weight:600"><span style="text-decoration:line-through;color:var(--text-tertiary)">${cargoFee} ₺</span> Ücretsiz</div>
+      </div>`;
+    }
+    
+    const finalTotal = totalWithCargo;
+
+    let discountHTML = "";
+    if (disc.source === "coupon") {
+      discountHTML = `
+        <div class="discount-row" style="margin-top:8px">
+          <span>Kupon indirimi (-%${Math.round(disc.rate * 100)}) <span onclick="removeCoupon()" style="cursor:pointer;font-size:11px;color:#e74c3c;margin-left:6px">✕ Kaldır</span></span>
+          <span>−${discAmount.toFixed(2)} ₺</span>
+        </div>`;
+    }
+
+    el.innerHTML = `
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Ürün</th><th>Birim Fiyat</th><th>Adet</th><th>Toplam</th><th></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+
+      <div class="return-policy-cart">
+        <span class="return-policy-icon">↩️</span>
+        <span>14 Günlük İade Garantisi: 14 gün içinde ücretsiz iade yapabilirsiniz</span>
+      </div>
+
+      <div class="return-policy-cart" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); margin-top: 12px;">
+        <span class="return-policy-icon">🚚</span>
+        <span>2000 ₺ Üzeri Kargo Ücretsiz</span>
+      </div>
+
+      <div class="coupon-box">
+        <label>Kupon Kodu</label>
+        <div class="coupon-row">
+          <input class="coupon-input${couponApplied ? ' valid' : ''}" id="couponInput"
+                 placeholder="Kodunuzu girin (örn: SHINE100)"
+                 value="${couponApplied ? COUPON_CODE : ''}"
+                 ${couponApplied ? 'readonly' : ''}
+                 onkeydown="if(event.key==='Enter') applyCoupon()">
+          ${couponApplied
+            ? `<button class="btn-apply" onclick="removeCoupon()" style="background:#e74c3c;">Kaldır</button>`
+            : `<button class="btn-apply" onclick="applyCoupon()">Uygula</button>`
+          }
+        </div>
+        <div class="coupon-msg ok" id="couponMsg">${couponApplied ? 'Kupon uygulandı! %15 indirim kazandınız.' : ''}</div>
+      </div>
+
+      <div class="summary">
+        <div>
+          <div class="total-label">${itemCount} ürün · Ara Toplam</div>
+          ${disc.rate > 0
+            ? `<div style="font-size:15px;color:var(--text-tertiary);text-decoration:line-through;margin-bottom:2px">${grandTotal.toFixed(2)} ₺</div>`
+            : ""
+          }
+          ${discountHTML}
+          <div class="total-amount" style="margin-top:8px">${finalTotal.toFixed(2)} ₺</div>
+          ${cargoMsg}
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-clear" onclick="clearCart()">Sepeti Boşalt</button>
+          <button class="btn-checkout" onclick="checkout()">Siparişi Tamamla →</button>
+        </div>
+      </div>
+    `;
+
+    updateBadge();
+  }
+
+  function changeQty(i, d) {
+    const c = getCart();
+    c[i].qty = Math.max(1, (c[i].qty || 1) + d);
+    saveCart(c); renderCart();
+  }
+
+  function removeItem(i) {
+    const c = getCart(); c.splice(i, 1);
+    saveCart(c); renderCart();
+  }
+
+  function clearCart() {
+    if (confirm("Sepet tamamen boşaltılsın mı?")) { 
+      saveCart([]);
+      couponApplied = false; // Kupon sıfırla
+      removeCoupon(); // Input alanını temizle
+      renderCart();
+    }
+  }
+
+  function checkout() {
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      alert("Sepet boş");
+      return;
+    }
+
+    // Kupon kaydını yap
+    if (couponApplied) {
+      const usedCoupons = JSON.parse(localStorage.getItem("usedCoupons") || "{}");
+      const cartID = Date.now().toString(); // Benzersiz sipariş ID
+      
+      if (!usedCoupons[cartID]) {
+        usedCoupons[cartID] = [];
+      }
+      usedCoupons[cartID].push(COUPON_CODE);
+      
+      localStorage.setItem("usedCoupons", JSON.stringify(usedCoupons));
+      localStorage.setItem("currentCartID", cartID);
+    }
+
+    localStorage.setItem("pendingOrder", JSON.stringify({
+      items: cart,
+      total: cart.reduce((sum, i) => sum + i.price * (i.qty || 1), 0)
+    }));
+
+    window.location.href = "payment.html";
+  }
+
+  const user = localStorage.getItem("user");
+  const ua = document.getElementById("userArea");
+  if (user) {
+    ua.innerHTML = `<a href="profile.html" style="text-decoration:none;color:var(--text-primary);">👤 ${user}</a>`;
+  } else {
+    ua.innerHTML = `<a href="login.html">Giriş Yap/Kayıt Ol</a>`;
+  }
+
+  renderCart();
+</script>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Şirket</h3>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">Kariyer</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Müşteri Desteği</h3>
+        <ul>
+          <li><a href="#">SSS</a></li>
+          <li><a href="#">Sipariş Takibi</a></li>
+          <li><a href="#">Geri Dönüş & İade</a></li>
+          <li><a href="#">Kargo Bilgisi</a></li>
+          <li><a href="#">Bize Yazın</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Yasal</h3>
+        <ul>
+          <li><a href="privacy-policy.html">🔒 Gizlilik Politikası</a></li>
+          <li><a href="#">📋 Kullanım Şartları</a></li>
+          <li><a href="#">🍪 Cookie Policy</a></li>
+          <li><a href="#">⚖️ Hukuki Uyarı</a></li>
+          <li><a href="#">♿ Erişilebilirlik</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>İletişim</h3>
+        <div class="footer-contact">
+          <div class="footer-contact-item">
+            <strong>📧</strong>
+            <span>support@shine.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📱</strong>
+            <span>+90 (212) 555-0123</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📮</strong>
+            <span>İstanbul, Türkiye</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>🕐</strong>
+            <span>Pzt-Cum: 09:00-18:00</span>
+          </div>
+        </div>
+        <h3 style="margin-top: 20px;">Bizi Takip Edin</h3>
+        <div class="footer-social">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="TikTok">♪</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2026 Shine Jewelry. Tüm hakları saklıdır.
+      </div>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Gizlilik</a>
+        <a href="#">Şartlar</a>
+        <a href="#">Çerezler</a>
+        <a href="#">İlgili Kişi</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END FOOTER -->
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="favorites.html" class="favorites-link">
+      ♡ Favorilerim
+      <span class="favorites-badge" id="favoritesCount">0</span>
+    </a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="categories-wrapper">
+  <div class="categories">
+    <div class="category-buttons">
+      <button onclick="filterCategory('kolye')">Kolye</button>
+      <button onclick="filterCategory('bileklik')">Bileklik</button>
+      <button onclick="filterCategory('kupe')">Küpe</button>
+    </div>
+    
+    <div class="sort-section">
+      <label for="sortSelect">💰 Fiyat Sıralaması:</label>
+      <select id="sortSelect" onchange="sortByPrice()">
+        <option value="">Seç</option>
+        <option value="asc">Düşükten Yükseğe ↑</option>
+        <option value="desc">Yüksekten Düşüğe ↓</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div id="products"></div>
+
+<script src="app.js"></script>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Şirket</h3>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">Kariyer</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Müşteri Desteği</h3>
+        <ul>
+          <li><a href="#">SSS</a></li>
+          <li><a href="#">Sipariş Takibi</a></li>
+          <li><a href="#">Geri Dönüş & İade</a></li>
+          <li><a href="#">Kargo Bilgisi</a></li>
+          <li><a href="#">Bize Yazın</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Yasal</h3>
+        <ul>
+          <li><a href="privacy-policy.html">🔒 Gizlilik Politikası</a></li>
+          <li><a href="#">📋 Kullanım Şartları</a></li>
+          <li><a href="#">🍪 Cookie Policy</a></li>
+          <li><a href="#">⚖️ Hukuki Uyarı</a></li>
+          <li><a href="#">♿ Erişilebilirlik</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>İletişim</h3>
+        <div class="footer-contact">
+          <div class="footer-contact-item">
+            <strong>📧</strong>
+            <span>support@shine.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📱</strong>
+            <span>+90 (212) 555-0123</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📮</strong>
+            <span>İstanbul, Türkiye</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>🕐</strong>
+            <span>Pzt-Cum: 09:00-18:00</span>
+          </div>
+        </div>
+        <h3 style="margin-top: 20px;">Bizi Takip Edin</h3>
+        <div class="footer-social">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="TikTok">♪</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2026 Shine Jewelry. Tüm hakları saklıdır.
+      </div>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Gizlilik</a>
+        <a href="#">Şartlar</a>
+        <a href="#">Çerezler</a>
+        <a href="#">İlgili Kişi</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END FOOTER -->
+</body>
+</html>

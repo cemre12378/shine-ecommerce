@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ödeme – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .payment-wrapper {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .payment-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .payment-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .order-summary {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+      height: fit-content;
+    }
+
+    .order-summary h3 {
+      margin: 0 0 18px;
+      font-size: 16px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .item-detail {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: var(--text-primary);
+    }
+
+    .item-qty {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: #b5865a;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-color);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* ÖDEME FORMU */
+    .payment-form {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+    }
+
+    .payment-form h3 {
+      margin: 0 0 20px;
+      font-size: 16px;
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: Arial;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--text-primary);
+    }
+
+    .form-group input.error {
+      border-color: #e74c3c;
+      background: var(--bg-secondary);
+    }
+
+    .form-group input.valid {
+      border-color: #27ae60;
+      background: var(--bg-secondary);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #e74c3c;
+      margin-top: 4px;
+      display: none;
+      min-height: 14px;
+    }
+
+    .error-msg.show {
+      display: block;
+    }
+
+    .pay-button {
+      width: 100%;
+      padding: 13px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .pay-button:hover {
+      background: var(--button-hover);
+    }
+
+    .pay-button:disabled {
+      background: var(--text-tertiary);
+      cursor: not-allowed;
+    }
+
+    .security-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #27ae60;
+      margin-top: 12px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .secure-badge {
+      font-size: 16px;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .success-msg {
+      display: none;
+      background: var(--bg-secondary);
+      color: #27ae60;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #27ae60;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .back-button {
+      color: var(--text-primary);
+      text-decoration: underline;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 16px;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+
+    .back-button:hover {
+      text-decoration: none;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <span>♡ Favorilerim</span>
+    <a href="cart.html" style="text-decoration:none;color:var(--text-primary);">🛒 Sepetim</a>
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="payment-wrapper">
+  <div class="payment-container">
+    
+    <!-- SOL: SİPARİŞ ÖZETİ -->
+    <div class="order-summary">
+      <h3>📦 Sipariş Özeti</h3>
+      <div id="orderItems"></div>
+      <div class="order-total">
+        <span>Toplam:</span>
+        <span id="totalAmount">0 ₺</span>
+      </div>
+    </div>
+
+    <!-- SAĞ: ÖDEME FORMU -->
+    <div class="payment-form">
+      <h3>💳 Ödeme Bilgileri</h3>
+
+      <div class="form-group">
+        <label>Kart Sahibinin Adı</label>
+        <input 
+          id="cardName" 
+          placeholder="Adınızı ve Soyadınızı yazın"
+          oninput="validateCardName()">
+        <div class="error-msg" id="cardNameError"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Kart Numarası</label>
+        <input 
+          id="cardNumber" 
+          placeholder="1234 5678 9012 3456"
+          maxlength="19"
+          oninput="formatCardNumber(this); validateCardNumber()">
+        <div class="error-msg" id="cardNumberError"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ay / Yıl</label>
+          <input 
+            id="cardExpiry" 
+            placeholder="MM/YY"
+            maxlength="5"
+            oninput="formatExpiry(this); validateExpiry()">
+          <div class="error-msg" id="cardExpiryError"></div>
+        </div>
+
+        <div class="form-group">
+          <label>CVV</label>
+          <input 
+            id="cardCVV" 
+            placeholder="123"
+            maxlength="4"
+            type="password"
+            oninput="validateCVV()">
+          <div class="error-msg" id="cardCVVError"></div>
+        </div>
+      </div>
+
+      <button class="pay-button" id="payButton" onclick="processPayment()">
+        Ödemeyi Tamamla
+      </button>
+
+      <div class="loading" id="loading">
+        🔄 İşleniyor...
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        ✅ Ödeme başarılı! Siparişiniz tamamlandı.
+      </div>
+
+      <div class="security-note">
+        <span class="secure-badge">🔒</span>
+        Ödemeniz tamamen güvenlidir
+      </div>
+
+      <a class="back-button" onclick="goBack()">← Sepete Geri Dön</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="tema.js"></script>
+<script src="payment.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Paneli – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg-secondary);
+    }
+
+    .admin-sidebar {
+      width: 250px;
+      background: var(--bg-primary);
+      border-right: 1px solid var(--border-color);
+      padding: 24px 0;
+      height: 100vh;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+    }
+
+    .admin-sidebar h3 {
+      padding: 0 20px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      margin: 20px 0 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-menu-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .admin-menu-item:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .admin-menu-item.active {
+      border-left-color: var(--text-primary);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .admin-content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.3s;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ÜRÜN EKLEME FORMU */
+    .product-form {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 600px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+    }
+
+    .product-form h2 {
+      margin: 0 0 24px;
+      font-size: 20px;
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: Arial;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--text-primary);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn-add {
+      width: 100%;
+      padding: 12px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-add:hover {
+      background: var(--button-hover);
+    }
+
+    /* SİPARİŞLER VE KULLANICILAR */
+    .data-container {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+    }
+
+    .data-container h2 {
+      margin: 0 0 24px;
+      font-size: 20px;
+      color: var(--text-primary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .stat-card.orders {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .stat-card.users {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* TABLO */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .data-table thead {
+      background: var(--bg-secondary);
+    }
+
+    .data-table th {
+      padding: 13px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .data-table tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ACCORDION */
+    .order-row {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: background 0.2s;
+    }
+
+    .order-header:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .order-header.open {
+      background: var(--bg-tertiary);
+    }
+
+    .order-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex: 1;
+      gap: 20px;
+    }
+
+    .order-id {
+      font-weight: 700;
+      color: var(--text-primary);
+      min-width: 100px;
+    }
+
+    .order-date {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      min-width: 150px;
+    }
+
+    .order-total {
+      font-weight: 700;
+      color: #b5865a;
+      min-width: 100px;
+      text-align: right;
+    }
+
+    .chevron {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      transition: transform 0.25s;
+      margin-left: 10px;
+    }
+
+    .order-header.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .order-items {
+      display: none;
+      padding: 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      margin-left: 20px;
+    }
+
+    .order-header.open + .order-items {
+      display: block;
+    }
+
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 13px;
+    }
+
+    .order-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .success-msg {
+      background: var(--bg-secondary);
+      color: #27ae60;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #27ae60;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+
+    .user-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 16px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .user-row:last-child {
+      border-bottom: none;
+    }
+
+    .user-row:hover {
+      background: var(--bg-secondary);
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .user-email {
+      color: var(--text-secondary);
+      font-size: 13px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <span>♡ Favorilerim</span>
+    <a href="cart.html" style="text-decoration:none;color:var(--text-primary);">🛒 Sepetim</a>
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="admin-wrapper">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <h3>📊 Admin Paneli</h3>
+
+    <div class="admin-menu-item active" onclick="switchTab('products')">
+      ➕ Ürün Ekle
+    </div>
+    <div class="admin-menu-item" onclick="switchTab('orders')">
+      📦 Siparişler
+    </div>
+    <div class="admin-menu-item" onclick="switchTab('users')">
+      👥 Kullanıcılar
+    </div>
+
+    <h3 style="margin-top: 30px;">🎯 Diğer</h3>
+    <div class="admin-menu-item" onclick="logout()" style="color: #cc4444;">
+      🚪 Çıkış Yap
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="admin-content">
+
+    <!-- TAB 1: ÜRÜN EKLE -->
+    <div class="content-section active" id="products-tab">
+      <div class="product-form">
+        <h2>➕ Yeni Ürün Ekle</h2>
+
+        <div class="form-group">
+          <label>Ürün Adı *</label>
+          <input id="name" placeholder="Örn: Gümüş Kolye">
+        </div>
+
+        <div class="form-group">
+          <label>Fiyat (₺) *</label>
+          <input id="price" placeholder="Örn: 150" type="number">
+        </div>
+
+        <div class="form-group">
+          <label>Kategori *</label>
+          <select id="category">
+            <option value="">-- Seç --</option>
+            <option value="kolye">Kolye</option>
+            <option value="bileklik">Bileklik</option>
+            <option value="kupe">Küpe</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ürün Resmi *</label>
+          <input id="image" type="file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label>Açıklama</label>
+          <textarea id="description" placeholder="Ürün hakkında açıklama yazın..."></textarea>
+        </div>
+
+        <button class="btn-add" onclick="addProduct()">Ürünü Ekle</button>
+        <div class="success-msg" id="addProductMsg" style="display:none; margin-top: 12px;">
+          ✅ Ürün başarıyla eklendi!
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: SİPARİŞLER -->
+    <div class="content-section" id="orders-tab">
+      <div class="data-container">
+        <h2>📦 Siparişler</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card orders">
+            <div class="stat-number" id="totalOrders">0</div>
+            <div class="stat-label">Toplam Sipariş</div>
+          </div>
+          <div class="stat-card orders" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <div class="stat-number" id="totalRevenue">0₺</div>
+            <div class="stat-label">Toplam Gelir</div>
+          </div>
+        </div>
+
+        <div id="ordersList"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: KULLANICILAR -->
+    <div class="content-section" id="users-tab">
+      <div class="data-container">
+        <h2>👥 Kaydolan Kullanıcılar</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card users">
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Toplam Kullanıcı</div>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>E-posta</th>
+              </tr>
+            </thead>
+            <tbody id="usersList"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="tema.js"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>

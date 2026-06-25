@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Favorilerim – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .favorites-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .favorites-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .favorites-header h2 {
+      font-size: 28px;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .favorites-header p {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .empty-favorites {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-favorites .icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .empty-favorites p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .empty-favorites a {
+      display: inline-block;
+      padding: 10px 28px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .empty-favorites a:hover {
+      background: var(--button-hover);
+    }
+
+    #favorites-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .favorite-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px var(--card-shadow);
+      transition: all 0.2s ease;
+    }
+
+    .favorite-card:hover {
+      box-shadow: 0 4px 12px var(--card-shadow);
+      transform: translateY(-2px);
+    }
+
+    .favorite-card-image {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .favorite-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .favorite-remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .favorite-remove-btn:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+
+    .favorite-card h3 {
+      margin: 10px 0;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .favorite-card p {
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin: 5px 0 15px 0;
+    }
+
+    .favorite-card button {
+      width: 100%;
+      padding: 10px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .favorite-card button:hover {
+      background: var(--button-hover);
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="favorites.html">♡ Favorilerim</a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="favorites-container">
+  <div class="favorites-header">
+    <h2>❤️ Favorilerim</h2>
+    <p>Beğendiğin ürünleri buradan takip et</p>
+  </div>
+
+  <div id="favoritesContent"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Şirket</h3>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">Kariyer</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Müşteri Desteği</h3>
+        <ul>
+          <li><a href="#">SSS</a></li>
+          <li><a href="#">Sipariş Takibi</a></li>
+          <li><a href="#">Geri Dönüş & İade</a></li>
+          <li><a href="#">Kargo Bilgisi</a></li>
+          <li><a href="#">Bize Yazın</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Yasal</h3>
+        <ul>
+          <li><a href="privacy-policy.html">🔒 Gizlilik Politikası</a></li>
+          <li><a href="#">📋 Kullanım Şartları</a></li>
+          <li><a href="#">🍪 Cookie Policy</a></li>
+          <li><a href="#">⚖️ Hukuki Uyarı</a></li>
+          <li><a href="#">♿ Erişilebilirlik</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>İletişim</h3>
+        <div class="footer-contact">
+          <div class="footer-contact-item">
+            <strong>📧</strong>
+            <span>support@shine.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📱</strong>
+            <span>+90 (212) 555-0123</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📮</strong>
+            <span>İstanbul, Türkiye</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>🕐</strong>
+            <span>Pzt-Cum: 09:00-18:00</span>
+          </div>
+        </div>
+        <h3 style="margin-top: 20px;">Bizi Takip Edin</h3>
+        <div class="footer-social">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="TikTok">♪</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2026 Shine Takı. Tüm hakları saklıdır.
+      </div>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Gizlilik</a>
+        <a href="#">Şartlar</a>
+        <a href="#">Çerezler</a>
+        <a href="#">İlgili Kişi</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="tema.js"></script>
+<script src="app.js"></script>
+<script>
+  function loadFavorites() {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const container = document.getElementById("favoritesContent");
+    
+    if (favorites.length === 0) {
+      container.innerHTML = `
+        <div class="empty-favorites">
+          <div class="icon">💔</div>
+          <p>Henüz favori ürünün yok</p>
+          <a href="index.html">Ürünleri Keşfet</a>
+        </div>
+      `;
+      return;
+    }
+    
+    let html = '<div id="favorites-products">';
+    
+    favorites.forEach(fav => {
+      html += `
+        <div class="favorite-card">
+          <div class="favorite-card-image">
+            <img src="${fav.image}" onclick="goDetail(${fav.id})">
+            <button class="favorite-remove-btn" onclick="removeFavorite(${fav.id})" title="Favorilerden çıkar">❤️</button>
+          </div>
+          <h3>${fav.name}</h3>
+          <p>${fav.price}₺</p>
+          <button onclick="addToCartFromFav(${fav.id}, '${fav.name}', ${fav.price}, '${fav.image}')">
+            SEPETE EKLE
+          </button>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+  }
+  
+  function removeFavorite(id) {
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    favorites = favorites.filter(f => f.id !== id);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    updateFavoriteBadge();
+    loadFavorites();
+  }
+  
+  function addToCartFromFav(id, name, price, image) {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.push({ id, name, price, image, qty: 1 });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    alert("✅ Ürün sepete eklendi!");
+  }
+  
+  // Sayfa yükleme
+  document.addEventListener("DOMContentLoaded", () => {
+    loadFavorites();
+    checkUser();
+    updateCartBadge();
+  });
+</script>
+
+</body>
+</html>

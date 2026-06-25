@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profilim – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-wrapper {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .profile-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .profile-card,
+    .orders-card {
+      background: var(--bg-primary);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 2px 16px var(--card-shadow);
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .profile-card h2,
+    .orders-card h2 {
+      text-align: center;
+      font-size: 18px;
+      margin: 0 0 24px;
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .form-group input:focus { 
+      border-color: var(--text-primary);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 20px 0;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 12px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background-color 0.2s;
+    }
+    .btn-save:hover { 
+      background: var(--button-hover);
+    }
+
+    .btn-logout {
+      width: 100%;
+      padding: 11px;
+      background: var(--bg-primary);
+      color: #cc4444;
+      border: 1.5px solid #cc4444;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+    .btn-logout:hover { 
+      background: var(--bg-secondary);
+    }
+
+    .msg {
+      text-align: center;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 7px;
+      margin-top: 12px;
+      display: none;
+    }
+    .msg.ok  { background: var(--bg-secondary); color: #27ae60; display: block; border: 1px solid #27ae60; }
+    .msg.err { background: var(--bg-secondary); color: #e74c3c; display: block; border: 1px solid #e74c3c; }
+
+    /* ACCORDION SİPARİŞLER */
+    .orders-card h2 {
+      text-align: left;
+    }
+
+    .order-accordion {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--bg-secondary);
+      transition: background-color 0.15s;
+    }
+    .order-header:hover { 
+      background: var(--bg-tertiary);
+    }
+
+    .order-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .order-id {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .order-date {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    .order-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .order-total-badge {
+      font-size: 13px;
+      font-weight: 700;
+      color: #b5865a;
+    }
+    .order-chevron {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      transition: transform 0.25s;
+      display: inline-block;
+    }
+    .order-accordion.open .order-chevron {
+      transform: rotate(180deg);
+    }
+
+    .order-body {
+      display: none;
+      padding: 0 16px 14px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-primary);
+    }
+    .order-accordion.open .order-body {
+      display: block;
+    }
+
+    .order-product-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .order-product-row:last-child {
+      border-bottom: none;
+    }
+
+    .no-orders {
+      text-align: center;
+      color: var(--text-tertiary);
+      padding: 40px 0;
+      font-size: 14px;
+    }
+    .no-orders .icon { font-size: 36px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <span>♡ Favorilerim</span>
+    <a href="cart.html" style="text-decoration:none;color:var(--text-primary);">🛒 Sepetim</a>
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="profile-wrapper">
+
+  <!-- SOL: BİLGİLERİ GÜNCELLE -->
+  <div class="profile-card">
+    <div class="profile-avatar" id="avatar">?</div>
+    <h2>Bilgilerimi Güncelle</h2>
+
+    <div class="section-title">Kişisel Bilgiler</div>
+
+    <div class="form-group">
+      <label>Ad</label>
+      <input id="name" placeholder="Adınız">
+    </div>
+    <div class="form-group">
+      <label>Soyad</label>
+      <input id="surname" placeholder="Soyadınız">
+    </div>
+    <div class="form-group">
+      <label>E-posta</label>
+      <input id="email" type="email" placeholder="E-posta adresiniz">
+    </div>
+
+    <hr class="divider">
+    <div class="section-title">Şifre Değiştir</div>
+
+    <div class="form-group">
+      <label>Mevcut Şifre</label>
+      <input id="currentPassword" type="password" placeholder="Mevcut şifreniz">
+    </div>
+    <div class="form-group">
+      <label>Yeni Şifre</label>
+      <input id="newPassword" type="password" placeholder="Boş bırakırsan değişmez">
+    </div>
+
+    <button class="btn-save" onclick="saveProfile()">Değişiklikleri Kaydet</button>
+    <div class="msg" id="msg"></div>
+
+    <hr class="divider">
+    <button class="btn-logout" onclick="logout()">Çıkış Yap</button>
+  </div>
+
+  <!-- SAĞ: SİPARİŞLERİM -->
+  <div class="orders-card">
+    <h2>📦 Siparişlerim</h2>
+    <div id="ordersList"></div>
+  </div>
+
+</div>
+
+<script src="tema.js"></script>
+<script>
+  const userEmail = localStorage.getItem("userEmail");
+  const userName  = localStorage.getItem("user");
+
+  if (!userEmail) {
+    window.location.href = "login.html";
+  }
+
+  const av = document.getElementById("avatar");
+  if (userName) av.textContent = userName.charAt(0).toUpperCase();
+
+  const ua = document.getElementById("userArea");
+  ua.innerHTML = `<a href="profile.html" style="cursor:pointer;text-decoration:none;color:var(--text-primary);">👤 ${userName}</a>`;
+
+  fetch("/profile?email=" + encodeURIComponent(userEmail))
+    .then(r => r.json())
+    .then(u => {
+      document.getElementById("name").value    = u.name    || "";
+      document.getElementById("surname").value = u.surname || "";
+      document.getElementById("email").value   = u.email   || "";
+      av.textContent = (u.name || "?").charAt(0).toUpperCase();
+    });
+
+  function saveProfile() {
+    const name            = document.getElementById("name").value.trim();
+    const surname         = document.getElementById("surname").value.trim();
+    const email           = document.getElementById("email").value.trim();
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword     = document.getElementById("newPassword").value;
+    const msgEl           = document.getElementById("msg");
+
+    if (!name || !email) {
+      msgEl.textContent = "Ad ve e-posta zorunludur.";
+      msgEl.className = "msg err";
+      return;
+    }
+
+    fetch("/update-profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ oldEmail: userEmail, name, surname, email, currentPassword, newPassword })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        localStorage.setItem("user", name);
+        localStorage.setItem("userEmail", email);
+        av.textContent = name.charAt(0).toUpperCase();
+        ua.innerHTML = `<a href="profile.html" style="cursor:pointer;text-decoration:none;color:var(--text-primary);">👤 ${name}</a>`;
+        msgEl.textContent = "Bilgiler güncellendi!";
+        msgEl.className = "msg ok";
+        document.getElementById("currentPassword").value = "";
+        document.getElementById("newPassword").value = "";
+      } else {
+        msgEl.textContent = data.error || "Bir hata oluştu.";
+        msgEl.className = "msg err";
+      }
+    });
+  }
+
+  function logout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("userEmail");
+    window.location.href = "index.html";
+  }
+
+  // SİPARİŞ GEÇMİŞİ — ACCORDION
+  function loadOrders() {
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    const container = document.getElementById("ordersList");
+
+    if (orders.length === 0) {
+      container.innerHTML = `
+        <div class="no-orders">
+          <div class="icon">🛍️</div>
+          <div>Henüz siparişiniz bulunmuyor.</div>
+        </div>`;
+      return;
+    }
+
+    const reversed = [...orders].reverse();
+
+    container.innerHTML = reversed.map((order, i) => {
+      const productsHTML = order.items.map(item => `
+        <div class="order-product-row">
+          <span>${item.name} <span style="color:var(--text-tertiary)">x${item.qty || 1}</span></span>
+          <span>${(item.price * (item.qty || 1)).toFixed(2)} ₺</span>
+        </div>
+      `).join("");
+
+      return `
+        <div class="order-accordion" id="order-${i}">
+          <div class="order-header" onclick="toggleOrder('order-${i}')">
+            <div class="order-header-left">
+              <span class="order-id">Sipariş #${String(order.id).slice(-6)}</span>
+              <span class="order-date">${order.date}</span>
+            </div>
+            <div class="order-header-right">
+              <span class="order-total-badge">${order.total.toFixed(2)} ₺</span>
+              <span class="order-chevron">▼</span>
+            </div>
+          </div>
+          <div class="order-body">
+            ${productsHTML}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function toggleOrder(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle("open");
+  }
+
+  loadOrders();
+</script>
+
+</body>
+</html>

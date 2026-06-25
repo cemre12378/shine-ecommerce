@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kayıt Ol</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="#">♡ Favorilerim</a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="center-box">
+  <div class="form-box">
+    <h2>Kayıt Ol</h2>
+
+    <input id="name" placeholder="Ad">
+    <input id="surname" placeholder="Soyad">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Şifre">
+
+    <button onclick="register()">Kayıt Ol</button>
+
+    <br><br>
+
+    <button onclick="continueWithoutLogin()">Üyeliksiz Devam Et</button>
+  </div>
+</div>
+
+<script src="tema.js"></script>
+<script src="register.js"></script>
+
+</body>
+</html>

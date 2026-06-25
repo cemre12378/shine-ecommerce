@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gizlilik Politikası – Shine</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .privacy-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .privacy-container h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .privacy-container .updated {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 30px;
+    }
+
+    .privacy-container h2 {
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .privacy-container p, .privacy-container li {
+      line-height: 1.8;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    .privacy-container ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .privacy-container strong {
+      color: var(--text-primary);
+    }
+
+    .contact-box {
+      background: var(--bg-tertiary);
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border-left: 4px solid #667eea;
+    }
+
+    .contact-box h3 {
+      margin-top: 0;
+      color: var(--text-primary);
+    }
+
+    .contact-box p {
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="#">♡ Favorilerim</a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="privacy-container">
+  <h1>🔒 Gizlilik Politikası</h1>
+  <p class="updated">Son Güncelleme: Nisan 2026</p>
+
+  <h2>1. Giriş</h2>
+  <p>
+    Shine Takı ("Biz", "Bizim", "Şirket") olarak, müşterilerimizin gizliliğini ciddiye alıyoruz. 
+    Bu gizlilik politikası, web sitemiz aracılığıyla topladığımız kişisel verilerin nasıl işlendiğini açıklamaktadır.
+  </p>
+
+  <h2>2. Hangi Bilgileri Topluyoruz?</h2>
+  <p>Aşağıdaki bilgileri toplayabiliriz:</p>
+  <ul>
+    <li><strong>Kişisel Bilgiler:</strong> Ad, soyadı, e-posta, telefon numarası, adres</li>
+    <li><strong>Ödeme Bilgileri:</strong> Kredi kartı detayları (güvenli şekilde şifrelenmiş olarak işlenir)</li>
+    <li><strong>Sipariş Bilgileri:</strong> Satın aldığınız ürünler, fiyatlar, teslimat adresi</li>
+    <li><strong>Teknik Bilgiler:</strong> IP adresi, tarayıcı türü, sayfaya erişim zamanı</li>
+    <li><strong>Çerezler:</strong> Site deneyimi iyileştirmek için</li>
+  </ul>
+
+  <h2>3. Verilerinizi Nasıl Kullanıyoruz?</h2>
+  <p>Topladığımız verileri aşağıdaki amaçlarla kullanıyoruz:</p>
+  <ul>
+    <li>✅ Siparişlerinizi işlemek ve gönderimi sağlamak</li>
+    <li>✅ Ödeme işlemlerini gerçekleştirmek</li>
+    <li>✅ Müşteri desteği hizmeti sunmak</li>
+    <li>✅ Hizmetlerimizi geliştirmek ve kişiselleştirmek</li>
+    <li>✅ İzniniz varsa pazarlama e-postaları göndermek</li>
+    <li>✅ Dolandırıcılığı önlemek ve güvenliği sağlamak</li>
+  </ul>
+
+  <h2>4. Verilerinizi Nasıl Koruyor?</h2>
+  <p>
+    <strong>Verileriniz bizim için çok önemlidir.</strong> Kişisel bilgilerinizi korumak için:
+  </p>
+  <ul>
+    <li>🔐 SSL encryption (128-bit ve üzeri) kullanıyoruz</li>
+    <li>🔐 Kredi kartı bilgileri PCI DSS standartlarına göre işlenir</li>
+    <li>🔐 Veritabanı şifrelenmiş ve güvenli sunucularda depolanır</li>
+    <li>🔐 Çalışanlarımız veri gizliliği konusunda eğitilmiştir</li>
+    <li>🔐 Düzenli güvenlik denetimleri yapılır</li>
+  </ul>
+  <p style="color: #cc6666; margin-top: 15px;">
+    <strong>Uyarı:</strong> İnternet 100% güvenli değildir. Verileri güvenilir bağlantı üzerinden gönderin.
+  </p>
+
+  <h2>5. Çerezler (Cookies) Nedir?</h2>
+  <p>
+    Web sitemiz çerezler kullanır. Çerezler:
+  </p>
+  <ul>
+    <li><strong>Gerekli:</strong> Site işlevselliği için (giriş, sepet, vb.)</li>
+    <li><strong>Tercihe Dayalı:</strong> Tema seçimi (açık/koyu mod)</li>
+    <li><strong>Analitik:</strong> Ziyaretçi davranışını anlamak için</li>
+  </ul>
+  <p>
+    Çerezleri tarayıcı ayarlarından devre dışı bırakabilirsiniz. 
+    Bununla birlikte, bazı site özellikleri çalışmayabilir.
+  </p>
+
+  <h2>6. Üçüncü Taraflarla Veri Paylaşımı</h2>
+  <p>
+    Kişisel verilerinizi <strong>satmıyoruz veya kiralayamıyız.</strong> 
+    Ancak aşağıdaki durumlarda üçüncü taraflarla paylaşabiliriz:
+  </p>
+  <ul>
+    <li>💼 <strong>Ödeme Sağlayıcıları:</strong> Ödeme işlemini tamamlamak için</li>
+    <li>💼 <strong>Kargo Şirketleri:</strong> Siparişi göndermek için</li>
+    <li>💼 <strong>Hukuki Gerekler:</strong> Mahkeme kararı veya yasayı uygulamak için</li>
+  </ul>
+
+  <h2>7. 14 Günlük İade Süreci</h2>
+  <p>
+    <strong>Shine Takı'dan satın aldığınız her ürüne 14 günlük iade hakkı vardır.</strong>
+  </p>
+  <ul>
+    <li><strong>⏳ Süre:</strong> Ürünü aldığınız tarihten itibaren 14 gün içinde</li>
+    <li><strong>💰 Geri Ödeme:</strong> Ürün iade edilirse 7-10 iş günü içinde tam para iadesi yapılır</li>
+    <li><strong>📮 Kargo:</strong> İade kargo ücreti tarafımızdan karşılanır</li>
+    <li><strong>❓ Koşul Yok:</strong> Hiçbir soruya cevap vermeden iade yapabilirsiniz</li>
+    <li><strong>✅ Orijinal Durumda:</strong> Ürün orijinal ambalajında, kullanılmamış durumda olmalıdır</li>
+  </ul>
+  <p style="margin-top: 15px; padding: 15px; background: var(--bg-tertiary); border-radius: 8px;">
+    <strong>İade Talep Etmek İçin:</strong><br>
+    1. support@shine.com adresine e-posta gönder<br>
+    2. Sipariş numaranı ve iade nedeni belirt<br>
+    3. İade etiketini al<br>
+    4. Ürünü geri gönder
+  </p>
+
+  <h2>8. KVKK Hakları (Türkiye)</h2>
+  <p>
+    Türkiye'de yaşıyorsanız, Kişisel Verileri Koruma Kanunu (KVKK) gereğince aşağıdaki haklara sahipsiniz:
+  </p>
+  <ul>
+    <li>📋 <strong>Erişim Hakkı:</strong> Sahip olduğumuz verilerinizi görebilirsiniz</li>
+    <li>✏️ <strong>Düzeltme Hakkı:</strong> Yanlış verileri düzeltebilirsiniz</li>
+    <li>🗑️ <strong>Silme Hakkı:</strong> Verilerinizin silinmesini talep edebilirsiniz</li>
+    <li>📤 <strong>Taşınabilirlik Hakkı:</strong> Verilerinizi başka yere taşıyabilirsiniz</li>
+    <li>🚫 <strong>İtiraz Hakkı:</strong> İşlemeye itiraz edebilirsiniz</li>
+  </ul>
+  <p>
+    Bu haklarınızı kullanmak için <strong>support@shine.com</strong> ile iletişime geçin.
+  </p>
+
+  <h2>9. Veri Saklama Süresi</h2>
+  <p>
+    Kişisel verilerinizi şu kadar süre saklıyoruz:
+  </p>
+  <ul>
+    <li>📅 <strong>Sipariş Bilgileri:</strong> 3 yıl (vergi/yasal nedenler)</li>
+    <li>📅 <strong>Hesap Bilgileri:</strong> Hesap aktif kaldığı sürece</li>
+    <li>📅 <strong>Marketing Verileri:</strong> Abonelikten çıkana kadar</li>
+  </ul>
+
+  <h2>10. Çocuklar ve Gizlilik</h2>
+  <p>
+    Web sitemiz 18 yaşın altındaki bireyler için tasarlanmamıştır. 
+    13 yaşından küçük birinin veri sağladığını öğrenirsek, hemen sileriz. 
+    Eğer bu konuda endişeniz varsa, <strong>support@shine.com</strong> ile iletişime geçin.
+  </p>
+
+  <h2>11. Politika Değişiklikleri</h2>
+  <p>
+    Bu gizlilik politikasını zaman zaman güncelleyebiliriz. 
+    Önemli değişikliklerde size e-posta göndereceğiz. 
+    Devam etmek sizin değişiklikleri kabul ettiğiniz anlamına gelir.
+  </p>
+
+  <h2>12. İletişim Bilgileri</h2>
+  <div class="contact-box">
+    <h3>Sorularınız mı var?</h3>
+    <p><strong>📧 E-posta:</strong> support@shine.com</p>
+    <p><strong>📱 Telefon:</strong> +90 (212) 555-0123</p>
+    <p><strong>📮 Adres:</strong> Shine Takı Ltd., İstanbul, Türkiye</p>
+    <p><strong>🕐 Çalışma Saatleri:</strong> Pazartesi-Cuma 09:00-18:00 (Türkiye Saati)</p>
+    <p><strong>⏰ Yanıt Süresi:</strong> 24 saat içinde cevap verilir</p>
+  </div>
+
+  <p style="margin-top: 40px; text-align: center; color: var(--text-tertiary); font-size: 12px;">
+    © 2026 Shine Takı. Tüm hakları saklıdır.
+  </p>
+</div>
+
+<script src="tema.js"></script>
+<script src="app.js"></script>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Şirket</h3>
+        <ul>
+          <li><a href="index.html">Ana Sayfa</a></li>
+          <li><a href="#">Hakkımızda</a></li>
+          <li><a href="#">Kariyer</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Müşteri Desteği</h3>
+        <ul>
+          <li><a href="#">SSS</a></li>
+          <li><a href="#">Sipariş Takibi</a></li>
+          <li><a href="#">Geri Dönüş & İade</a></li>
+          <li><a href="#">Kargo Bilgisi</a></li>
+          <li><a href="#">Bize Yazın</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Yasal</h3>
+        <ul>
+          <li><a href="privacy-policy.html">🔒 Gizlilik Politikası</a></li>
+          <li><a href="#">📋 Kullanım Şartları</a></li>
+          <li><a href="#">🍪 Cookie Policy</a></li>
+          <li><a href="#">⚖️ Hukuki Uyarı</a></li>
+          <li><a href="#">♿ Erişilebilirlik</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>İletişim</h3>
+        <div class="footer-contact">
+          <div class="footer-contact-item">
+            <strong>📧</strong>
+            <span>support@shine.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📱</strong>
+            <span>+90 (212) 555-0123</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>📮</strong>
+            <span>İstanbul, Türkiye</span>
+          </div>
+          <div class="footer-contact-item">
+            <strong>🕐</strong>
+            <span>Pzt-Cum: 09:00-18:00</span>
+          </div>
+        </div>
+        <h3 style="margin-top: 20px;">Bizi Takip Edin</h3>
+        <div class="footer-social">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="TikTok">♪</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2026 Shine Takı. Tüm hakları saklıdır.
+      </div>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Gizlilik</a>
+        <a href="#">Şartlar</a>
+        <a href="#">Çerezler</a>
+        <a href="#">İlgili Kişi</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END FOOTER -->
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ürün Detay</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .detail-container {
+      display: flex;
+      gap: 60px;
+      padding: 40px;
+      background: var(--bg-secondary);
+    }
+
+    .detail-left img {
+      width: 500px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .detail-right {
+      max-width: 400px;
+    }
+
+    .detail-right h2 {
+      color: var(--text-primary);
+      margin-top: 0;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 15px 0;
+      color: var(--text-primary);
+    }
+
+    .buy-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      margin: 15px 0;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.2s ease;
+    }
+
+    .buy-btn:hover {
+      background: var(--button-hover);
+    }
+
+    .cargo {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .desc-box {
+      background: var(--bg-tertiary);
+      padding: 15px;
+      border-radius: 5px;
+      color: var(--text-primary);
+    }
+
+    .desc-box h4 {
+      color: var(--text-primary);
+      margin-top: 0;
+    }
+
+    /* 14-DAY RETURN RULE */
+    .return-policy {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .return-policy-icon {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">✨ Shine</div>
+
+  <input id="searchInput" placeholder="Ürün ara...">
+
+  <div class="menu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="favorites.html" class="favorites-link">
+      ♡ Favorilerim
+      <span class="favorites-badge" id="favoritesCount">0</span>
+    </a>
+
+    <a href="cart.html" class="cart-link">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartCount">0</span>
+    </a>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Tema Değiştir">🌙</button>
+
+    <span id="userArea"></span>
+  </div>
+</div>
+
+<div class="categories-wrapper">
+  <div class="categories">
+    <div class="category-buttons">
+      <button onclick="goToCategory('kolye')">Kolye</button>
+      <button onclick="goToCategory('bileklik')">Bileklik</button>
+      <button onclick="goToCategory('kupe')">Küpe</button>
+    </div>
+  </div>
+</div>
+
+<div class="detail-container">
+  <div class="detail-left" id="left"></div>
+  <div class="detail-right" id="right"></div>
+</div>
+
+<script src="tema.js"></script>
+<script src="app.js"></script>
+<script src="product.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  let product = null;
+
+  fetch("/product/" + id)
+    .then(res => res.json())
+    .then(p => {
+      product = p;
+
+      document.getElementById("left").innerHTML = `
+        <img src="${p.image}">
+      `;
+
+      document.getElementById("right").innerHTML = `
+        <h2>${p.name}</h2>
+
+        <p class="price">${p.price}₺</p>
+
+        <button class="buy-btn" onclick="addToCart()">
+          SEPETE EKLE
+        </button>
+
+        <div class="cargo">
+          🚚 2000 TL üzeri ücretsiz kargo
+        </div>
+
+        <div class="return-policy">
+          <span class="return-policy-icon">↩️</span>
+          <span>14 Günlük İade Garantisi: 14 gün içinde ücretsiz iade</span>
+        </div>
+
+        <div class="desc-box">
+          <h4>Ürün Açıklaması</h4>
+          <p>${p.description || "Açıklama yok"}</p>
+        </div>
+      `;
+    });
+
+  function addToCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    alert("Sepete eklendi");
+  }
+</script>
+
+</body>
+</html>
